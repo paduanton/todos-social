@@ -15,6 +15,10 @@ class ProfileImages extends Model
         'thumbnail', 'picture_url', 'filename', 'path', 'mime', 'original_filename', 'original_extension'
     ];
 
+    protected $hidden = [
+        'deleted_at'
+    ];
+    
     public function users()
     {
         return $this->belongsTo(Users::class);

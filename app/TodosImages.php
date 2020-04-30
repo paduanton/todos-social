@@ -15,6 +15,10 @@ class TodosImages extends Model
         'thumbnail', 'picture_url', 'filename', 'path', 'mime', 'original_filename', 'original_extension'
     ];
 
+    protected $hidden = [
+        'deleted_at'
+    ];
+    
     public function todos()
     {
         return $this->belongsTo(Todos::class);
