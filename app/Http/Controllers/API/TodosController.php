@@ -15,25 +15,25 @@ class TodosController extends Controller
 
     public function index(ModelFilters $filters, Request $request)
     {
-        $recipes = [];
+        $todos = [];
 
         if ($filters->filters()) {
-            $recipes = Todos::filter($filters)->get();
+            $todos = Todos::filter($filters)->get();
         } else {
-            $recipes = Todos::all();
+            $todos = Todos::all();
         }
 
-        if ($recipes->isEmpty()) {
+        if ($todos->isEmpty()) {
             throw new ModelNotFoundException;
         }
 
-        return TodosResource::collection($recipes);
+        return TodosResource::collection($todos);
     }
 
     public function show($id)
     {
-        $recipe = Todos::findOrFail($id);
-        return new TodosResource($recipe);
+        $todos = Todos::findOrFail($id);
+        return new TodosResource($todos);
     }
 
     public function getTodosByUsersId(ModelFilters $filters, $usersId)
@@ -70,23 +70,16 @@ class TodosController extends Controller
         $this->validate($request, [
             'title' => 'required|string',
             'description' => 'required|string',
-            'cooking_time' => 'required',
-            'category' => 'required|string',
-            'meal_type' => 'required|string',
-            'youtube_video_url' => 'nullable|active_url',
-            'yields' => 'required|numeric',
-            'cost' => 'required|integer|between:1,5',
-            'complexity' => 'required|integer|between:1,5',
-            'notes' => 'nullable|string'
+            'completed' => 'required|boolean'
         ]);
 
         Users::findOrFail($usersId);
 
         $request['users_id'] = $usersId;
-        $recipes = Todos::create($request->all());
+        $todos = Todos::create($request->all());
 
-        if ($recipes) {
-            return new TodosResource($recipes);
+        if ($todos) {
+            return new TodosResource($todos);
         }
 
         return response()->json([
@@ -100,14 +93,8 @@ class TodosController extends Controller
         $this->validate($request, [
             'title' => 'nullable|string',
             'description' => 'nullable|string',
-            'cooking_time' => 'nullable',
-            'category' => 'nullable|string',
-            'meal_type' => 'nullable|string',
-            'youtube_video_url' => 'nullable|active_url',
-            'yields' => 'nullable|numeric',
-            'cost' => 'nullable|integer|between:1,5',
-            'complexity' => 'nullable|integer|between:1,5',
-            'notes' => 'nullable|string'
+            'completed' => 'nullable|boolean'
+
         ]);
         
         Todos::findOrFail($id);
@@ -119,7 +106,7 @@ class TodosController extends Controller
         }
 
         return response()->json([
-            'message' => 'could not update recipes data',
+            'message' => 'could not update todos data',
         ], 409);
     }
 
