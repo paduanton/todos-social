@@ -14,16 +14,16 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 class TodosImagesController extends Controller
 {
     
-    public function index($recipesId)
+    public function index($todosId)
     {
-        Todos::findOrFail($recipesId);
-        $recipesImages = TodosImages::where('recipes_id', $recipesId)->get();
+        Todos::findOrFail($todosId);
+        $todosImages = TodosImages::where('todos_id', $todosId)->get();
 
-        if ($recipesImages->isEmpty()) {
+        if ($todosImages->isEmpty()) {
             throw new ModelNotFoundException;
         }
 
-        return TodosImagesResource::collection($recipesImages);
+        return TodosImagesResource::collection($todosImages);
     }
 
     public function show($id)
@@ -32,7 +32,7 @@ class TodosImagesController extends Controller
         return new TodosImagesResource($image);
     }
 
-    public function upload(Request $request, $recipesId)
+    public function upload(Request $request, $todosId)
     {
         $this->validate($request, [
             'image' => 'required|image|mimes:jpeg,png,jpg,gif',
@@ -40,29 +40,29 @@ class TodosImagesController extends Controller
         ]);
 
         $thumbnail = $request['thumbnail'];
-        $recipe = Todos::findOrFail($recipesId);
+        $todo = Todos::findOrFail($todosId);
 
         if ($thumbnail) {
-            $recipeHasThumbnail = TodosImages::where('thumbnail', $thumbnail)->where('recipes_id', $recipesId)->first();
+            $todoHasThumbnail = TodosImages::where('thumbnail', $thumbnail)->where('todos_id', $todosId)->first();
 
-            if ($recipeHasThumbnail) {
+            if ($todoHasThumbnail) {
                 return response()->json([
                     'message' => 'The given data was invalid.',
-                    'error' => 'The selected recipe already has a thumbnail image.'
+                    'error' => 'The selected todo already has a thumbnail image.'
                 ], 400);
             }
         }
 
-        $recipeHasImage = TodosImages::where('recipes_id', $recipesId)->first();
+        $todoHasImage = TodosImages::where('todos_id', $todosId)->first();
 
-        if (!$recipeHasImage && !$thumbnail) {
+        if (!$todoHasImage && !$thumbnail) {
             return response()->json([
                 'message' => 'The given data was invalid.',
-                'error' => 'The selected recipes id does not have a thumbnail image, please define a thumbnail.'
+                'error' => 'The selected todos id does not have a thumbnail image, please define a thumbnail.'
             ], 400);
         }
 
-        $basePath = 'uploads/recipes/images';
+        $basePath = 'uploads/todos/images';
         $urlBasePath = url('storage/' . $basePath);
         $file = $request->file('image');
 
@@ -77,12 +77,12 @@ class TodosImagesController extends Controller
         $image->filename = basename($storeImage);
         $image->path = $storeImage;
         $image->picture_url = $urlBasePath . '/' . $image->filename;
-        $recipe->images()->save($image);
+        $todo->images()->save($image);
 
         return new TodosImagesResource($image);
     }
 
-    public function update(Request $request, $recipesId, $id)
+    public function update(Request $request, $todosId, $id)
     {
         $this->validate($request, [
             'thumbnail' => [
@@ -92,13 +92,13 @@ class TodosImagesController extends Controller
             ]
         ]);
 
-        $recipeImage = TodosImages::findOrFail($id);
+        $todoImage = TodosImages::findOrFail($id);
 
-        if ($recipeImage->thumbnail) {
-            return new TodosImagesResource($recipeImage);
+        if ($todoImage->thumbnail) {
+            return new TodosImagesResource($todoImage);
         }
 
-        $currentThumbnailImage = TodosImages::where('recipes_id', $recipesId)->where('thumbnail', true)->first();
+        $currentThumbnailImage = TodosImages::where('todos_id', $todosId)->where('thumbnail', true)->first();
 
         if ($currentThumbnailImage) {
             $currentThumbnailImage->update(['thumbnail' => false]);
@@ -111,29 +111,29 @@ class TodosImagesController extends Controller
         }
 
         return response()->json([
-            'message' => 'could not update recipe image data'
+            'message' => 'could not update todo image data'
         ], 409);
     }
 
     public function destroy($id)
     {
-        $recipeImage = TodosImages::findOrFail($id);
+        $todoImage = TodosImages::findOrFail($id);
 
-        if ($recipeImage->thumbnail) {
+        if ($todoImage->thumbnail) {
             return response()->json([
-                'message' => 'it is not possible to delete a recipe thumbnail',
+                'message' => 'it is not possible to delete a todo thumbnail',
             ], 400);
         }
 
-        $deleteFile = Storage::delete('public/' . $recipeImage->path);
-        $delete = $recipeImage->delete();
+        $deleteFile = Storage::delete('public/' . $todoImage->path);
+        $delete = $todoImage->delete();
 
         if ($delete && $deleteFile) {
             return response()->json([], 204);
         }
 
         return response()->json([
-            'message' => 'could not delete recipes image data',
+            'message' => 'could not delete todos image data',
         ], 400);
     }
 }

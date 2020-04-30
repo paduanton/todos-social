@@ -36,6 +36,6 @@ class Todos extends Model
 
     public function users_comments()
     {
-        return $this->belongsToMany(Users::class, 'comments', 'recipes_id','users_id');
+        return $this->belongsToMany(Users::class, 'comments', 'todos_id','users_id');
     }
 }

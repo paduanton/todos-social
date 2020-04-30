@@ -10,7 +10,7 @@ class TodosImagesResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'recipes_id' => $this->recipes_id,
+            'todos_id' => $this->todos_id,
             'thumbnail' => $this->thumbnail,
             'picture_url' => $this->picture_url,
             'filename' => $this->filename,

@@ -12,7 +12,7 @@ class Comments extends Model
     protected $table = 'comments';
 
     protected $fillable = [
-        'users_id', 'recipes_id', 'parent_comments_id', 'description'
+        'users_id', 'todos_id', 'parent_comments_id', 'description'
     ];
 
     protected $hidden = [

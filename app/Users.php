@@ -45,7 +45,7 @@ class Users extends Authenticatable
 
     public function todos_comments()
     {
-        return $this->belongsToMany(todos::class, 'comments', 'users_id', 'recipes_id');
+        return $this->belongsToMany(todos::class, 'comments', 'users_id', 'todos_id');
     }
 
 }

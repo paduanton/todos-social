@@ -57,13 +57,13 @@ class TodosController extends Controller
     public function search($title)
     {
         
-        $recipes = Todos::where('title', 'LIKE', "%{$title}%")->get();
+        $todos = Todos::where('title', 'LIKE', "%{$title}%")->get();
 
-        if ($recipes->isEmpty()) {
+        if ($todos->isEmpty()) {
             throw new ModelNotFoundException;
         }
 
-        return TodosResource::collection($recipes);
+        return TodosResource::collection($todos);
     }
     public function store(Request $request, $usersId)
     {
@@ -122,7 +122,7 @@ class TodosController extends Controller
         }
 
         return response()->json([
-            'message' => 'could not delete recipes data',
+            'message' => 'could not delete todos data',
         ], 400);
     }
 }

@@ -29,10 +29,10 @@ class CommentsController extends Controller
         return new CommentsResource($comment);
     }
    
-    public function getCommentsByTodosId($recipesId)
+    public function getCommentsByTodosId($todosId)
     {
-        $recipe = Todos::findOrFail($recipesId);
-        $comments = Comments::where('recipes_id', $recipesId)->get();
+        $todo = Todos::findOrFail($todosId);
+        $comments = Comments::where('todos_id', $todosId)->get();
 
         if ($comments->isEmpty()) {
             throw new ModelNotFoundException;
@@ -41,7 +41,7 @@ class CommentsController extends Controller
         return CommentsResource::collection($comments);
     }
 
-    public function store(Request $request, $usersId, $recipesId)
+    public function store(Request $request, $usersId, $todosId)
     {
         $this->validate($request, [
             'description' => 'required|string',
@@ -49,7 +49,7 @@ class CommentsController extends Controller
         ]);
         
         Users::findOrFail($usersId);
-        Todos::findOrFail($recipesId);
+        Todos::findOrFail($todosId);
         
         if(isset($request['parent_comments_id'])) {
             $comment = Comments::findOrFail($request['parent_comments_id']);
@@ -65,7 +65,7 @@ class CommentsController extends Controller
         $comment = [
             'description' => $request['description'],
             'users_id' => $usersId,
-            'recipes_id' => $recipesId,
+            'todos_id' => $todosId,
             'parent_comments_id' => isset($request['parent_comments_id']) ? $request['parent_comments_id'] : null
         ];
 
@@ -88,9 +88,9 @@ class CommentsController extends Controller
 
         $instruction = Comments::findOrFail($id);
         
-        $recipeHasInstructionOrder = Comments::where('recipes_id', $instruction->recipes_id)->where('order', $request['order'])->first();
+        $todoHasInstructionOrder = Comments::where('todos_id', $instruction->todos_id)->where('order', $request['order'])->first();
         
-        if($recipeHasInstructionOrder) {
+        if($todoHasInstructionOrder) {
             return response()->json([
                 'error' => 'duplicate order value',
                 'message' => "order {$request['order']} already exist"

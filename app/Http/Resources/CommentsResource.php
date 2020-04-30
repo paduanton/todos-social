@@ -12,7 +12,7 @@ class CommentsResource extends JsonResource
         return [
             'id' => $this->id,
             'users_id' => $this->users_id,
-            'recipes_id' => $this->recipes_id,
+            'todos_id' => $this->todos_id,
             'description' => $this->description,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
