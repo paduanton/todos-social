@@ -5,7 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class RecipesImages extends Model
+class TodosImages extends Model
 {
     use SoftDeletes;
 
@@ -15,8 +15,8 @@ class RecipesImages extends Model
         'thumbnail', 'picture_url', 'filename', 'path', 'mime', 'original_filename', 'original_extension'
     ];
 
-    public function recipes()
+    public function todos()
     {
-        return $this->belongsTo(Recipes::class);
+        return $this->belongsTo(Todos::class);
     }
 }

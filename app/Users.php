@@ -21,11 +21,9 @@ class Users extends Authenticatable
         'password', 'remember_token', 'deleted_at', 'pivot'
     ];
 
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-    ];
 
-    public function recipes()
+
+    public function todos()
     {
         return $this->hasMany(Todos::class);
     }
@@ -45,9 +43,9 @@ class Users extends Authenticatable
         return $this->belongsToMany(Users::class, 'followers', 'users_id', 'following_users_id');
     }
 
-    public function recipes_comments()
+    public function todos_comments()
     {
-        return $this->belongsToMany(Recipes::class, 'comments', 'users_id', 'recipes_id');
+        return $this->belongsToMany(todos::class, 'comments', 'users_id', 'recipes_id');
     }
 
 }

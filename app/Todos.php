@@ -13,8 +13,7 @@ class Todos extends Model
     protected $table = 'todos';
 
     protected $fillable = [
-        'users_id', 'title', 'description', 'cooking_time', 'category',
-        'meal_type', 'youtube_video_url', 'yields', 'cost', 'complexity', 'notes'
+        'users_id', 'title', 'description', 'completed'
     ];
 
     protected $hidden = [
@@ -22,7 +21,7 @@ class Todos extends Model
     ];
 
     private static $whiteListFilter = [
-        'cooking_time', 'meal_type', 'category', 'yields', 'cost', 'complexity'
+        'title', 'completed'
     ];
 
     public function users()
@@ -32,19 +31,9 @@ class Todos extends Model
 
     public function images()
     {
-        return $this->hasMany(RecipesImages::class);
+        return $this->hasMany(TodosImages::class);
     }
 
-    public function ingredients()
-    {
-        return $this->hasMany(Ingredients::class);
-    }
-
-    public function instructions()
-    {
-        return $this->hasMany(Instructions::class);
-    }
-    
     public function users_comments()
     {
         return $this->belongsToMany(Users::class, 'comments', 'recipes_id','users_id');

@@ -16,10 +16,10 @@ Route::group(['prefix' => '/v1'], function () use ($router) {
         Unauthenticated Routes
     */
 
-        // Recipes
+        // Todos
 
-    $router->get('/search/recipes/{title}', 'API\RecipesController@search');
-    $router->get('/recipes/{id}', 'API\RecipesController@show');
+    $router->get('/todos/{title}/search', 'API\RecipesController@search');
+    $router->get('/todos/{id}', 'API\RecipesController@show');
 
     /*
         Authentication Routes
