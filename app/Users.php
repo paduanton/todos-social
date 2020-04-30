@@ -21,8 +21,6 @@ class Users extends Authenticatable
         'password', 'remember_token', 'deleted_at', 'pivot'
     ];
 
-
-
     public function todos()
     {
         return $this->hasMany(Todos::class);

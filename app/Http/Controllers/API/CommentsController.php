@@ -31,7 +31,7 @@ class CommentsController extends Controller
    
     public function getCommentsByTodosId($todosId)
     {
-        $todo = Todos::findOrFail($todosId);
+        Todos::findOrFail($todosId);
         $comments = Comments::where('todos_id', $todosId)->get();
 
         if ($comments->isEmpty()) {

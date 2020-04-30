@@ -15,6 +15,7 @@ class TodosResource extends JsonResource
             'title' => $this->title,
             'description' => $this->description,
             'completed' => $this->completed,
+            'images' => $this->images,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at
         ];
