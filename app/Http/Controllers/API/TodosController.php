@@ -20,7 +20,7 @@ class TodosController extends Controller
         if ($filters->filters()) {
             $todos = Todos::filter($filters)->get();
         } else {
-            $todos = Todos::all();
+            $todos = Todos::paginate();
         }
 
         if ($todos->isEmpty()) {
