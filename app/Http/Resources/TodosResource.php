@@ -16,6 +16,7 @@ class TodosResource extends JsonResource
             'description' => $this->description,
             'completed' => $this->completed,
             'images' => $this->images,
+            'comments' => CommentsResource::collection($this->comments),
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at
         ];

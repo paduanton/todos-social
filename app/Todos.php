@@ -34,8 +34,8 @@ class Todos extends Model
         return $this->hasMany(TodosImages::class);
     }
 
-    public function users_comments()
+    public function comments()
     {
-        return $this->belongsToMany(Users::class, 'comments', 'todos_id','users_id');
+        return $this->hasMany(Comments::class);
     }
 }
