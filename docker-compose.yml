@@ -1,0 +1,54 @@
+version: "3.3"
+
+networks:
+  todos:
+    driver: bridge
+
+services:
+  db:
+    container_name: todosdb
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_DATABASE: ${DB_DATABASE}
+    image: mysql:5.7
+    networks:
+      - todos
+    ports:
+      - 3306:3306
+    restart: always
+    volumes:
+      - ./storage/database:/var/lib/mysql
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: todosmyadmin
+    networks:
+      - todos
+    ports:
+      - 8181:80
+
+  nginx-server:
+    container_name: todos_server
+    build: ./docker/nginx
+    restart: always
+    ports:
+      - "80:80"
+    volumes: 
+      - ./:/var/www
+    depends_on: 
+      - php-fpm
+    networks:
+      - todos
+
+  php-fpm:
+    container_name: todosweb
+    restart: always
+    build: ./docker/php-fpm
+    volumes: 
+      - ./:/var/www/
+    # command: >
+    #   sh -c "./bootstrap.sh"
+    depends_on: 
+      - db
+    networks:
+      - todos

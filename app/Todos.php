@@ -1,0 +1,52 @@
+<?php
+
+namespace App;
+
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use eloquentFilter\QueryFilter\ModelFilters\Filterable;
+
+class Todos extends Model
+{
+    use SoftDeletes, Filterable;
+
+    protected $table = 'todos';
+
+    protected $fillable = [
+        'users_id', 'title', 'description', 'cooking_time', 'category',
+        'meal_type', 'youtube_video_url', 'yields', 'cost', 'complexity', 'notes'
+    ];
+
+    protected $hidden = [
+        'deleted_at'
+    ];
+
+    private static $whiteListFilter = [
+        'cooking_time', 'meal_type', 'category', 'yields', 'cost', 'complexity'
+    ];
+
+    public function users()
+    {
+        return $this->belongsTo(Users::class);
+    }
+
+    public function images()
+    {
+        return $this->hasMany(RecipesImages::class);
+    }
+
+    public function ingredients()
+    {
+        return $this->hasMany(Ingredients::class);
+    }
+
+    public function instructions()
+    {
+        return $this->hasMany(Instructions::class);
+    }
+    
+    public function users_comments()
+    {
+        return $this->belongsToMany(Users::class, 'comments', 'recipes_id','users_id');
+    }
+}
