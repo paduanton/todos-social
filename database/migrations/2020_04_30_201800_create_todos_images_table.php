@@ -27,6 +27,6 @@ class CreateTodosImagesTable extends Migration
 
     public function down()
     {
-        Schema::dropIfExists('recipes_images');
+        Schema::dropIfExists('todos_images');
     }
 }
