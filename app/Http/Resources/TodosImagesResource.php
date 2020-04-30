@@ -3,7 +3,7 @@
 namespace App\Http\Resources;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class RecipesImagesResource extends JsonResource
+class TodosImagesResource extends JsonResource
 {
     
     public function toArray($request)

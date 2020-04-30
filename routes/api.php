@@ -18,14 +18,13 @@ Route::group(['prefix' => '/v1'], function () use ($router) {
 
         // Todos
 
-    $router->get('/todos/{title}/search', 'API\RecipesController@search');
-    $router->get('/todos/{id}', 'API\RecipesController@show');
+    $router->get('/todos/{title}/search', 'API\TodosController@search');
+    $router->get('/todos/{id}', 'API\TodosController@show');
 
     /*
         Authentication Routes
     */
 
-    $router->post('/oauth/social', 'API\SocialAuthController@authenticate');
     $router->post('/login', 'API\AuthController@login');
     $router->post('/signup', 'API\AuthController@signup');
 
@@ -36,7 +35,7 @@ Route::group(['prefix' => '/v1'], function () use ($router) {
             Users Routes
         */
 
-        $router->get('/search/users/{name}', 'API\UsersController@search');
+        $router->get('/users/{name}/search', 'API\UsersController@search');
         $router->get('/user/{username}', 'API\UsersController@getByUsername');
         $router->apiResource('/users', 'API\UsersController');
         $router->get('/user', function (Request $request) {
@@ -44,22 +43,22 @@ Route::group(['prefix' => '/v1'], function () use ($router) {
         });
 
         /*
-            Recipes Routes
+            Todos Routes
         */
 
-        $router->apiResource('/recipes', 'API\RecipesController');
-        $router->get('/users/{usersId}/recipes', 'API\RecipesController@getRecipesByUsersId');
-        $router->post('/users/{usersId}/recipes', 'API\RecipesController@store');
+        $router->apiResource('/todos', 'API\TodosController');
+        $router->get('/users/{usersId}/todos', 'API\TodosController@getTodosByUsersId');
+        $router->post('/users/{usersId}/todos', 'API\TodosController@store');
 
         /*
-            RecipesImages Routes
+            TodosImages Routes
         */
 
-        $router->get('/images/{id}/recipes', 'API\RecipesImagesController@show');
-        $router->delete('/images/{id}/recipes', 'API\RecipesImagesController@destroy');
-        $router->get('/recipes/{recipesId}/images', 'API\RecipesImagesController@index');
-        $router->post('/recipes/{recipesId}/images', 'API\RecipesImagesController@upload');
-        $router->patch('/recipes/{recipesId}/images/{id}', 'API\RecipesImagesController@update');
+        $router->get('/images/{id}/todos', 'API\TodosImagesController@show');
+        $router->delete('/images/{id}/todos', 'API\TodosImagesController@destroy');
+        $router->get('/todos/{todosId}/images', 'API\TodosImagesController@index');
+        $router->post('/todos/{todosId}/images', 'API\TodosImagesController@upload');
+        $router->patch('/todos/{todosId}/images/{id}', 'API\TodosImagesController@update');
 
         /*
             ProfileImages Routes
@@ -90,8 +89,8 @@ Route::group(['prefix' => '/v1'], function () use ($router) {
         */
 
         $router->apiResource('/comments', 'API\CommentsController');
-        $router->get('/recipes/{recipesId}/comments', 'API\CommentsController@getCommentsByRecipesId');
-        $router->post('/users/{usersId}/recipes/{recipesId}/comments', 'API\CommentsController@store');
+        $router->get('/todos/{todosId}/comments', 'API\CommentsController@getCommentsByTodosId');
+        $router->post('/users/{usersId}/todos/{todosId}/comments', 'API\CommentsController@store');
 
     });
 });

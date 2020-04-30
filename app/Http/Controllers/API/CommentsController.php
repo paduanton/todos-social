@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Users;
-use App\Recipes;
+use App\Todos;
 use App\Comments;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -29,9 +29,9 @@ class CommentsController extends Controller
         return new CommentsResource($comment);
     }
    
-    public function getCommentsByRecipesId($recipesId)
+    public function getCommentsByTodosId($recipesId)
     {
-        $recipe = Recipes::findOrFail($recipesId);
+        $recipe = Todos::findOrFail($recipesId);
         $comments = Comments::where('recipes_id', $recipesId)->get();
 
         if ($comments->isEmpty()) {
@@ -49,7 +49,7 @@ class CommentsController extends Controller
         ]);
         
         Users::findOrFail($usersId);
-        Recipes::findOrFail($recipesId);
+        Todos::findOrFail($recipesId);
         
         if(isset($request['parent_comments_id'])) {
             $comment = Comments::findOrFail($request['parent_comments_id']);

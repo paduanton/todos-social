@@ -2,33 +2,34 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Recipes;
-use App\RecipesImages;
+use App\Todos;
+use App\TodosImages;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
-use App\Http\Resources\RecipesImagesResource;
+use App\Http\Resources\TodosImagesResource;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
-class RecipesImagesController extends Controller
+class TodosImagesController extends Controller
 {
+    
     public function index($recipesId)
     {
-        Recipes::findOrFail($recipesId);
-        $recipesImages = RecipesImages::where('recipes_id', $recipesId)->get();
+        Todos::findOrFail($recipesId);
+        $recipesImages = TodosImages::where('recipes_id', $recipesId)->get();
 
         if ($recipesImages->isEmpty()) {
             throw new ModelNotFoundException;
         }
 
-        return RecipesImagesResource::collection($recipesImages);
+        return TodosImagesResource::collection($recipesImages);
     }
 
     public function show($id)
     {
-        $image = RecipesImages::findOrFail($id);
-        return new RecipesImagesResource($image);
+        $image = TodosImages::findOrFail($id);
+        return new TodosImagesResource($image);
     }
 
     public function upload(Request $request, $recipesId)
@@ -39,10 +40,10 @@ class RecipesImagesController extends Controller
         ]);
 
         $thumbnail = $request['thumbnail'];
-        $recipe = Recipes::findOrFail($recipesId);
+        $recipe = Todos::findOrFail($recipesId);
 
         if ($thumbnail) {
-            $recipeHasThumbnail = RecipesImages::where('thumbnail', $thumbnail)->where('recipes_id', $recipesId)->first();
+            $recipeHasThumbnail = TodosImages::where('thumbnail', $thumbnail)->where('recipes_id', $recipesId)->first();
 
             if ($recipeHasThumbnail) {
                 return response()->json([
@@ -52,7 +53,7 @@ class RecipesImagesController extends Controller
             }
         }
 
-        $recipeHasImage = RecipesImages::where('recipes_id', $recipesId)->first();
+        $recipeHasImage = TodosImages::where('recipes_id', $recipesId)->first();
 
         if (!$recipeHasImage && !$thumbnail) {
             return response()->json([
@@ -65,7 +66,7 @@ class RecipesImagesController extends Controller
         $urlBasePath = url('storage/' . $basePath);
         $file = $request->file('image');
 
-        $image = new RecipesImages();
+        $image = new TodosImages();
         $image->thumbnail = $request['thumbnail'];
         $image->original_filename = $file->getClientOriginalName();
         $image->original_extension = $file->getClientOriginalExtension();
@@ -78,7 +79,7 @@ class RecipesImagesController extends Controller
         $image->picture_url = $urlBasePath . '/' . $image->filename;
         $recipe->images()->save($image);
 
-        return new RecipesImagesResource($image);
+        return new TodosImagesResource($image);
     }
 
     public function update(Request $request, $recipesId, $id)
@@ -91,22 +92,22 @@ class RecipesImagesController extends Controller
             ]
         ]);
 
-        $recipeImage = RecipesImages::findOrFail($id);
+        $recipeImage = TodosImages::findOrFail($id);
 
         if ($recipeImage->thumbnail) {
-            return new RecipesImagesResource($recipeImage);
+            return new TodosImagesResource($recipeImage);
         }
 
-        $currentThumbnailImage = RecipesImages::where('recipes_id', $recipesId)->where('thumbnail', true)->first();
+        $currentThumbnailImage = TodosImages::where('recipes_id', $recipesId)->where('thumbnail', true)->first();
 
         if ($currentThumbnailImage) {
             $currentThumbnailImage->update(['thumbnail' => false]);
         }
 
-        $newThumbnailImage = RecipesImages::where('id', $id)->update(['thumbnail' => true]);
+        $newThumbnailImage = TodosImages::where('id', $id)->update(['thumbnail' => true]);
 
         if ($newThumbnailImage) {
-            return new RecipesImagesResource(RecipesImages::find($id));
+            return new TodosImagesResource(TodosImages::find($id));
         }
 
         return response()->json([
@@ -116,7 +117,7 @@ class RecipesImagesController extends Controller
 
     public function destroy($id)
     {
-        $recipeImage = RecipesImages::findOrFail($id);
+        $recipeImage = TodosImages::findOrFail($id);
 
         if ($recipeImage->thumbnail) {
             return response()->json([

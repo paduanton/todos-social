@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class RecipesResource extends JsonResource
+class TodosResource extends JsonResource
 {
 
     public function toArray($request)
@@ -14,14 +14,7 @@ class RecipesResource extends JsonResource
             'users_id' => $this->users_id,
             'title' => $this->title,
             'description' => $this->description,
-            'cooking_time' => $this->cooking_time,
-            'category' => $this->category,
-            'meal_type' => $this->meal_type,
-            'youtube_video_url' => $this->youtube_video_url,
-            'yields' => $this->yields,
-            'cost' => $this->cost,
-            'complexity' => $this->complexity,
-            'notes' => $this->notes,
+            'completed' => $this->completed,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at
         ];

@@ -4,13 +4,13 @@ namespace App\Http\Controllers\API;
 
 use eloquentFilter\QueryFilter\ModelFilters\ModelFilters;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use App\Http\Resources\RecipesResource;
+use App\Http\Resources\TodosResource;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Recipes;
+use App\Todos;
 use App\Users;
 
-class RecipesController extends Controller
+class TodosController extends Controller
 {
 
     public function index(ModelFilters $filters, Request $request)
@@ -18,52 +18,52 @@ class RecipesController extends Controller
         $recipes = [];
 
         if ($filters->filters()) {
-            $recipes = Recipes::filter($filters)->get();
+            $recipes = Todos::filter($filters)->get();
         } else {
-            $recipes = Recipes::all();
+            $recipes = Todos::all();
         }
 
         if ($recipes->isEmpty()) {
             throw new ModelNotFoundException;
         }
 
-        return RecipesResource::collection($recipes);
+        return TodosResource::collection($recipes);
     }
 
     public function show($id)
     {
-        $recipe = Recipes::findOrFail($id);
-        return new RecipesResource($recipe);
+        $recipe = Todos::findOrFail($id);
+        return new TodosResource($recipe);
     }
 
-    public function getRecipesByUsersId(ModelFilters $filters, $usersId)
+    public function getTodosByUsersId(ModelFilters $filters, $usersId)
     {
         Users::findOrFail($usersId);
-        $usersRecipes = Recipes::where('users_id', $usersId);
+        $usersTodos = Todos::where('users_id', $usersId);
 
         if ($filters->filters()) {
-            $usersRecipes = $usersRecipes->filter($filters)->get();
+            $usersTodos = $usersTodos->filter($filters)->get();
         } else {
-            $usersRecipes = $usersRecipes->get();
+            $usersTodos = $usersTodos->get();
         }
 
-        if ($usersRecipes->isEmpty()) {
+        if ($usersTodos->isEmpty()) {
             throw new ModelNotFoundException;
         }
 
-        return RecipesResource::collection($usersRecipes);
+        return TodosResource::collection($usersTodos);
     }
 
     public function search($title)
     {
         
-        $recipes = Recipes::where('title', 'LIKE', "%{$title}%")->get();
+        $recipes = Todos::where('title', 'LIKE', "%{$title}%")->get();
 
         if ($recipes->isEmpty()) {
             throw new ModelNotFoundException;
         }
 
-        return RecipesResource::collection($recipes);
+        return TodosResource::collection($recipes);
     }
     public function store(Request $request, $usersId)
     {
@@ -83,10 +83,10 @@ class RecipesController extends Controller
         Users::findOrFail($usersId);
 
         $request['users_id'] = $usersId;
-        $recipes = Recipes::create($request->all());
+        $recipes = Todos::create($request->all());
 
         if ($recipes) {
-            return new RecipesResource($recipes);
+            return new TodosResource($recipes);
         }
 
         return response()->json([
@@ -110,12 +110,12 @@ class RecipesController extends Controller
             'notes' => 'nullable|string'
         ]);
         
-        Recipes::findOrFail($id);
+        Todos::findOrFail($id);
 
-        $update = Recipes::where('id', $id)->update($request->all());
+        $update = Todos::where('id', $id)->update($request->all());
 
         if ($update) {
-            return new RecipesResource(Recipes::find($id));
+            return new TodosResource(Todos::find($id));
         }
 
         return response()->json([
@@ -126,9 +126,9 @@ class RecipesController extends Controller
 
     public function destroy($id)
     {
-        Recipes::findOrFail($id);
+        Todos::findOrFail($id);
 
-        $delete = Recipes::where('id', $id)->delete();
+        $delete = Todos::where('id', $id)->delete();
 
         if ($delete) {
             return response()->json([], 204);
