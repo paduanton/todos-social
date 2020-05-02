@@ -14,4 +14,3 @@ php artisan storage:link
 
 php artisan config:cache
 php artisan cache:clear
-php artisan optimize:clear
