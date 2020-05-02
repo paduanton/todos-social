@@ -8,9 +8,15 @@ php artisan config:cache
 php artisan migrate:fresh
 php artisan key:generate
 php artisan passport:install
-chown 1000.1000 storage/*
-chmod 775 /var/www/storage/logs
+chmod 777 /var/www/storage/logs
+chown -R root:www-data /var/www/storage
 php artisan storage:link
 
 php artisan config:cache
+php artisan cache:clear
+
+chmod -R gu+w storage
+
+chmod -R guo+w storage
+
 php artisan cache:clear
