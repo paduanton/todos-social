@@ -4,8 +4,8 @@ until nc -z -v -w30 todosdb 3306; do
 done
 
 composer install
-php artisan migrate:fresh
 php artisan config:cache
+php artisan migrate:fresh
 php artisan key:generate
 php artisan passport:install
 chown 1000.1000 storage/*
