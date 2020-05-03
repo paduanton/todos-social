@@ -1,78 +1,105 @@
-<p align="center"><img src="https://res.cloudinary.com/dtfbvvkyp/image/upload/v1566331377/laravel-logolockup-cmyk-red.svg" width="400"></p>
+# Visão Geral
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/d/total.svg" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/v/stable.svg" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
-</p>
+Todos Social é um pequeno projeto de código aberto que implementa os conceitos básicos de rede e mídia sociais. Foi desenvolvido com PHP utilizando Laravel Framework. Esse repositório é a RESTful
+API backend somente. O frontend é escrito em Angular 9 e poder ser visto aqui:
 
-## About Laravel
+[Todos Frontend](https://github.com/paduanton/todos-frontend)
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+As entidades que esta API possui são: Users, Todos, ProfileImages, TodosImages, Followers e Comments. 
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+#### Relacionamentos:
+- User pode ter N - Todos
+- User pode ter N - ProfileImages
+- User pode ter N - N Followers
+- User pode ter N - Comments (um comentário pertence a um Todos)
+- Todos pode ter N - Comments (N - N com User)
+- Todos pode ter N - TodosImages
+- ProfileImages pode ter 1 - User
+- TodosImages pode ter 1 - Todo
+- Todo pode ter 1 - User
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+As funcionalidades que englobam esta API consistem em permitir o usuário a criar um cadastro, se autenticar, criar todos (uma postagem), adicionar imagens a um todos, adicionar imagens de perfil, comentar todos e seguir outros usuários.
 
-## Learning Laravel
+Os endpoints disponíveis consistem em atualizar informações em relação a todas entidades. Existem todos endpoints para fazer operações de CRUD seguindo padrão Restful para atualizar informações de todas entidades.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## Modelo ER do banco de dados
+![](https://raw.githubusercontent.com/paduanton/todos-social/master/public/ER.png)
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## Requisitos de sistema (Mac OS, Windows ou Linux)
+* [Docker](https://www.docker.com/get-started)
+* [Docker Compose](https://docs.docker.com/compose/install)
 
-## Laravel Sponsors
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+## Setup do projeto
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[British Software Development](https://www.britishsoftware.co)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- [UserInsights](https://userinsights.com)
-- [Fragrantica](https://www.fragrantica.com)
-- [SOFTonSOFA](https://softonsofa.com/)
-- [User10](https://user10.com)
-- [Soumettre.fr](https://soumettre.fr/)
-- [CodeBrisk](https://codebrisk.com)
-- [1Forge](https://1forge.com)
-- [TECPRESSO](https://tecpresso.co.jp/)
-- [Runtime Converter](http://runtimeconverter.com/)
-- [WebL'Agence](https://weblagence.com/)
-- [Invoice Ninja](https://www.invoiceninja.com)
-- [iMi digital](https://www.imi-digital.de/)
-- [Earthlink](https://www.earthlink.ro/)
-- [Steadfast Collective](https://steadfastcollective.com/)
-- [We Are The Robots Inc.](https://watr.mx/)
-- [Understand.io](https://www.understand.io/)
-- [Abdel Elrafa](https://abdelelrafa.com)
-- [Hyper Host](https://hyper.host)
-- [Appoly](https://www.appoly.co.uk)
-- [OP.GG](https://op.gg)
+Adicione a seguinte linha no arquivo hosts da sua máquina:
+```
+127.0.0.1       api.todos.social
+```
 
-## Contributing
+Dentro do diretório do repositório, roda os seguintes comandos no bash.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Copiar variáveis de ambiente do projeto:
+```
+cp .env.example .env
+```
 
-## Code of Conduct
+Montar e criar ambiente de dev local:
+```
+ docker-compose up --build
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+Instalar dependências e configurar permissões de diretórios e cache:
+```
+docker exec -it todosweb /bin/sh bootstrap.sh
+```
 
-## Security Vulnerabilities
+#### Autenticação de usuário OAuth2:
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+Nesta aplicação, através do Laravel foi utilizado autenticação OAuth2 utilizando biblioteca [Passport](https://laravel.com/docs/7.x/passport), então é possível consumir autenticação server side através de um Json Web Token.
 
-## License
+#### Observações
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+No arquivo **./bootstrap.sh** estão todos comandos para configurar o projeto, então para fazer alterações dentro do container é preciso somente rodar o arquivo e setar os comandos nele.
+
+## Autenticação
+
+To signup, send a POST request to `/api/auth/signup` with the data:
+* nome      | String 
+* sobrenome | String
+* email     | String (email format)
+* password - String
+* deficiente boolean
+
+To login send a POST request to `/api/auth/login` with the data:
+* email
+* password
+
+On success, an API access token will be returned with the type of it and its timing to expire:
+```json
+{
+    "access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6Ic4ZDAwNG",
+    "token_type": "Bearer",
+    "expires_at": "2019-12-22 20:50:42"
+}
+```
+
+All subsequent API requests must include this token in the HTTP header for user identification.
+Header key will be `Authorization` with value of 'Bearer' followed by a single space and then token string:
+```
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6Ic4ZDAwNG
+```
+
+
+## API Documentation
+Coming soon...
+<!--
+To view API documentation, run development server and visit [http://127.0.0.1:8000/docs/](http://127.0.0.1:8000/docs/)
+-->
+## Links
+
+https://www.getpostman.com/collections/18009794791e5384e19a
+<!-- - [API Docs](http://127.0.0.1:8000/docs/) -->
+- [Frontend (GitHub)](https://github.com/nataliaPintos/EyeSee)
+- [Natália (GitHub)](https://github.com/nataliaPintos)
+- [Antonio (GitHub)](https://github.com/paduanton)
