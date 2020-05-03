@@ -320,7 +320,7 @@ HTTP - 500
     ...
 }
 ```
-Lembrando que todas requisições **devem** conter o cabeçalho de autenticação com o token de usuário.
+Lembrando que todas requisições **devem** conter o cabeçalho de autenticação com o token de usuário e é usado Soft Deletes para deletar informações.
 
 ## POSTMAN
 
