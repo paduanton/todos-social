@@ -1,6 +1,6 @@
 # Visão Geral
 
-Todos Social é um pequeno projeto de código aberto que implementa os conceitos básicos de rede e mídia sociais. Foi desenvolvido com PHP utilizando Laravel Framework. Esse repositório é a RESTful
+Todos Social é um pequeno projeto de código aberto que implementa os conceitos básicos de rede e mídia sociais. Foi desenvolvido com PHP utilizando Laravel Framework e banco de dados MySQL. Esse repositório é a RESTful
 API backend somente. O frontend é escrito em Angular 9 e poder ser visto aqui:
 
 [Todos Frontend](https://github.com/paduanton/todos-frontend)
@@ -53,6 +53,8 @@ Instalar dependências e configurar permissões de diretórios e cache:
 ```
 docker exec -it todosweb /bin/sh bootstrap.sh
 ```
+
+Para acompanhar as mudanças no banco de dados da API, acesse http://api.todos.social:8181/ no navegador.
 
 #### Autenticação de usuário OAuth2:
 
@@ -120,7 +122,83 @@ HTTP - 200
 }
 ```
 
-## Tratamento de erros
+Para criar um Todo, envie requisição POST para `/v1/users/{userId}/todos` com os dados:
+
+```json
+{
+	"title": "Uma tarefa",
+	"description": "tarefa dos guri",
+	"completed": 1
+}
+```
+Para buscar todos os Todos, envie requisição GET para `/v1/todos` e será recebido o response:
+
+```json
+HTTP - 200
+
+{
+    "data": [
+        {
+            "id": 4,
+            "users_id": 1,
+            "title": "Uma tarefa",
+            "description": "Lorem ipsum",
+            "completed": 1,
+            "images": [],
+            "comments": [],
+            "created_at": "2020-05-03T06:37:29.000000Z",
+            "updated_at": "2020-05-03T06:37:29.000000Z"
+        },
+        {
+            "id": 5,
+            "users_id": 1,
+            "title": "Segunda tarefa",
+            "description": "Lorem ipsum 2",
+            "completed": 1,
+            "images": [],
+            "comments": [],
+            "created_at": "2020-05-03T06:40:52.000000Z",
+            "updated_at": "2020-05-03T06:40:52.000000Z"
+        }
+    ],
+    "links": {
+        "first": "http://api.todos.social/v1/todos?page=1",
+        "last": "http://api.todos.social/v1/todos?page=1",
+        "prev": null,
+        "next": null
+    },
+    "meta": {
+        "current_page": 1,
+        "from": 1,
+        "last_page": 1,
+        "path": "http://api.todos.social/v1/todos",
+        "per_page": 15,
+        "to": 2,
+        "total": 2
+    }
+}
+```
+
+Para atualizar um Todo, envie requisição PUT para `/v1/todos/{todosId}` com os dados:
+
+```json
+{
+	"title": "Lorem ipsum",
+	"description": "É uma description",
+	"completed": false
+}
+```
+
+Para deletar um Todo, envie requisição DELETE para `/v1/todos/{todosId}` e receba o response:
+
+```json
+HTTP - 204
+```
+
+- Para páginar passe o argumento **?page=1**
+- É possível páginar através dos atributos **completed** e **title** passando como argumentos: **?completed=1&title=Uma tarefa**
+
+## Tratamento de responses e erros
 
 Lembrando que todas requisições **devem** conter o cabeçalho de autenticação com o token de usuário.
 
