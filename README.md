@@ -1,6 +1,6 @@
 # Visão Geral
 
-Todos Social é um pequeno projeto de código aberto que implementa os conceitos básicos de rede e mídia sociais. Foi desenvolvido com PHP utilizando Laravel Framework e banco de dados MySQL. Esse repositório é a RESTful
+Todos Social é um pequeno projeto de código aberto que implementa os conceitos básicos de rede e mídia sociais. Foi desenvolvido com PHP utilizando Laravel Framework e banco de dados MySQL com padrão MVC. Esse repositório é a RESTful
 API backend somente. O frontend é escrito em Angular 9 e poder ser visto aqui:
 
 [Todos Frontend](https://github.com/paduanton/todos-frontend)
@@ -103,7 +103,7 @@ Em sucesso, um API access token será retornado com o tipo do token e a expiraç
 
 Todas requisições subsequentes **devem incluir esse token no `cabeçalho HTTP` para identificação de usuários**. O indíce do cabeçalho deve ser `Authorization` com o valor **Bearer** seguido de espaço simples com o valor do token:
 ```
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6Ic4ZDAwNG
+Authorization: Bearer eyJ0eXAiOiJKV1QiL.CJhbGciOiJSUzI1NiIm.p0aSI6Ic4ZDAwNG
 ```
 
 Para buscar usuário autenticado, envie requisição GET para `/v1/user` somente com cabeçalho de autenticação e será retornado o seguinte response:
