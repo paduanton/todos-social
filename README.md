@@ -37,7 +37,11 @@ Adicione a seguinte linha no arquivo hosts da sua máquina:
 127.0.0.1       api.todos.social
 ```
 
-Dentro do diretório do repositório, roda os seguintes comandos no bash:
+<<<<<<< HEAD
+Dentro do diretório do repositório, rode os seguintes comandos no bash:
+=======
+Dentro do diretório do repositório, rode os seguintes comandos no bash.
+>>>>>>> b8b9ca5a4e57aa0c76e70d134c7058534a3484b4
 
 Copiar variáveis de ambiente do projeto:
 ```
