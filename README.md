@@ -308,7 +308,7 @@ HTTP - 400
 }
 ```
 
-Caso o servidor gere um exception que não foi tratada
+Caso o servidor gere uma exception que não foi tratada
 
 Ex:
 ```json
@@ -320,7 +320,8 @@ HTTP - 500
     ...
 }
 ```
-Lembrando que todas requisições **devem** conter o cabeçalho de autenticação com o token de usuário e é usado Soft Deletes para deletar informações.
+
+Lembrando que todas requisições **devem** conter o cabeçalho de autenticação com o token de usuário. Outro ponto a ser levantado é que é usado Soft Deletes para deletar informações, então ao consultar o banco de dados, a coluna **deleted_at** populada corresponde aos dados deletados das entidades.
 
 ## POSTMAN
 
