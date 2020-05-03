@@ -37,7 +37,7 @@ Adicione a seguinte linha no arquivo hosts da sua máquina:
 127.0.0.1       api.todos.social
 ```
 
-Dentro do diretório do repositório, roda os seguintes comandos no bash.
+Dentro do diretório do repositório, roda os seguintes comandos no bash:
 
 Copiar variáveis de ambiente do projeto:
 ```
@@ -92,7 +92,7 @@ Envie com campo **username** ou **email**
 }
 ```
 
-Em sucesso, um API access token será retornado com o tipo do token e a expiração delete:
+Em sucesso, um API access token será retornado com o tipo do token e a expiração dele:
 ```json
 {
     "access_token": "eyJ0eXAiOiJKV1QiL.CJhbGciOiJSUzI1NiIm.p0aSI6Ic4ZDAwNG",
@@ -326,5 +326,7 @@ Lembrando que todas requisições **devem** conter o cabeçalho de autenticaçã
 ## POSTMAN
 
 Se você usa o postman, pode usar o link abaixo para importar uma **Collection** com grande parte das requisições da API. Atualmente o link contém 28 requisições documentadas.
+
+Somente substitua o cabeçalho de autenticação pela token gerado no seu ambiente local.
 
 https://www.getpostman.com/collections/18009794791e5384e19a
