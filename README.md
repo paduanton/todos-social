@@ -200,6 +200,126 @@ HTTP - 204
 
 ## Tratamento de responses e erros
 
+Parte dos responses já foram exemplificados, mas aqui será explicado os responses para cada tipo de requisição e os erros para todos eles.
+
+#### HTTP POST
+
+Em caso de sucesso será retornado `HTTP CODE 201 - 200` com body do objeto da requisição
+
+Ex:
+
+```json
+{
+        "id": 4,
+        "users_id": 1,
+        "title": "Uma Tarefa",
+        "description": "descrição tarefa",
+        "completed": 1,
+        "images": [],
+        "comments": [],
+        "created_at": "2020-05-03T06:37:29.000000Z",
+        "updated_at": "2020-05-03T06:37:29.000000Z"
+}
+```
+
+#### HTTP PUT - PATCH
+
+Em caso de sucesso será retornado `HTTP CODE 200` com body do objeto da requisição
+
+```json
+{
+        "id": 4,
+        "users_id": 1,
+        "title": "Uma Tarefa",
+        "description": "descrição tarefa",
+        "completed": 1,
+        "images": [],
+        "comments": [],
+        "created_at": "2020-05-03T06:37:29.000000Z",
+        "updated_at": "2020-05-03T06:37:29.000000Z"
+}
+```
+
+#### HTTP GET
+
+Em caso de sucesso será retornado `HTTP CODE 200` com um body de array de objetos do objeto alvo da requisição.
+```json
+[
+    {
+        "id": 4,
+        "users_id": 1,
+        "title": "Uma Tarefa",
+        "description": "descrição tarefa",
+        "completed": 1,
+        "images": [],
+        "comments": [],
+        "created_at": "2020-05-03T06:37:29.000000Z",
+        "updated_at": "2020-05-03T06:37:29.000000Z"
+    }
+]
+```
+
+#### HTTP DELETE
+
+Em caso de sucesso será retornado `HTTP CODE 204`
+
+### Erros
+
+Caso não possua token no cabeçalho será retornado um html informado exception de Route: login ou na maioria do casos, o seguinte:
+
+```json
+HTTP - 401
+{
+    "message": "Unauthenticated."
+}
+```
+
+Caso o seu body não esteja formatado corretamente
+
+```json
+HTTP - 422
+{
+    "message": "The given data was invalid.",
+    "errors": {
+        "completed": [
+            "The completed field must be true or false."
+        ]
+    }
+}
+```
+
+Caso o servidor não consiga achar informações com a requisição passada 
+
+```json
+HTTP - 404
+{
+    "message": "There is no data",
+    "error": "Model not found in the server"
+}
+```
+
+Caso o servidor não consiga processar sua requisição 
+
+Ex:
+```json
+HTTP - 400
+{
+    "message": "could delete data"
+}
+```
+
+Caso o servidor gere um exception que não foi tratada
+
+Ex:
+```json
+HTTP - 500
+{
+    "message": "ERROR TO HANDLE REQUEST",
+    "error": "xxxxxx"
+    ...
+    ...
+}
+```
 Lembrando que todas requisições **devem** conter o cabeçalho de autenticação com o token de usuário.
 
 ## POSTMAN
