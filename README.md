@@ -60,46 +60,72 @@ Nesta aplicação, através do Laravel foi utilizado autenticação OAuth2 utili
 
 #### Observações
 
-No arquivo **./bootstrap.sh** estão todos comandos para configurar o projeto, então para fazer alterações dentro do container é preciso somente rodar o arquivo e setar os comandos nele.
+No arquivo **./bootstrap.sh** estão todos comandos para configurar o projeto, então para fazer alterações dentro do container é preciso somente rodar o arquivo e setar os comandos nele. 
+
+Após seguir todos passos de setup, o projeto estará operando na porta 80: http://api.todos.social:80. As requisições para a API somente enviam dados e recebem JSON.
 
 ## Autenticação
 
-To signup, send a POST request to `/api/auth/signup` with the data:
-* nome      | String 
-* sobrenome | String
-* email     | String (email format)
-* password - String
-* deficiente boolean
+Para **todos** endpoints é necessário fazer requisições com `header Accept:application/json` e `Content-Type:application/json` 
 
-To login send a POST request to `/api/auth/login` with the data:
-* email
-* password
-
-On success, an API access token will be returned with the type of it and its timing to expire:
+Para cadastrar um usuário, envie uma requisição POST para `/v1/signup` com os dados:
 ```json
 {
-    "access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6Ic4ZDAwNG",
-    "token_type": "Bearer",
-    "expires_at": "2019-12-22 20:50:42"
+    "name": "Antonio de Pádua",
+	"email" : "antonio.junior.h@gmail.com",
+	"password" : "201125",
+	"password_confirmation" : "201125",
+	"birthday": "1999/09/22",
+	"remember_me": true
+}
+```
+Para autenticar um usuário existente, envie uma requisição POST `/v1/login` com os dados:
+
+Envie com campo **username** ou **email**
+```json
+{
+	"username" : "antonio.padua",
+	"password" : "nheac4257",
+	"remember_me": false
 }
 ```
 
-All subsequent API requests must include this token in the HTTP header for user identification.
-Header key will be `Authorization` with value of 'Bearer' followed by a single space and then token string:
+Em sucesso, um API access token será retornado com o tipo do token e a expiração delete:
+```json
+{
+    "access_token": "eyJ0eXAiOiJKV1QiL.CJhbGciOiJSUzI1NiIm.p0aSI6Ic4ZDAwNG",
+    "token_type": "Bearer",
+    "expires_at": "2021-05-02 21:47:23"
+}
+```
+
+Todas requisições subsequentes **devem incluir esse token no `cabeçalho HTTP` para identificação de usuários**. O indíce do cabeçalho deve ser `Authorization` com o valor **Bearer** seguido de espaço simples com o valor do token:
 ```
 Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6Ic4ZDAwNG
 ```
 
+Para buscar usuário autenticado, envie requisição GET para `/v1/user` somente com cabeçalho de autenticação e será retornado o seguinte response:
 
-## API Documentation
-Coming soon...
-<!--
-To view API documentation, run development server and visit [http://127.0.0.1:8000/docs/](http://127.0.0.1:8000/docs/)
--->
-## Links
+```json
+HTTP - 200
+
+{
+    "id": 6,
+    "name": "Antonio de Pádua",
+    "username": "antonio.padua",
+    "email": "antonio.junior.h@gmail.com",
+    "birthday": "1999-09-22",
+    "created_at": "2020-05-03T06:17:20.000000Z",
+    "updated_at": "2020-05-03T06:17:20.000000Z"
+}
+```
+
+## Tratamento de erros
+
+Lembrando que todas requisições **devem** conter o cabeçalho de autenticação com o token de usuário.
+
+## POSTMAN
+
+Se você usa o postman, pode usar o link abaixo para importar uma **Collection** com grande parte das requisições da API. Atualmente o link contém 28 requisições documentadas.
 
 https://www.getpostman.com/collections/18009794791e5384e19a
-<!-- - [API Docs](http://127.0.0.1:8000/docs/) -->
-- [Frontend (GitHub)](https://github.com/nataliaPintos/EyeSee)
-- [Natália (GitHub)](https://github.com/nataliaPintos)
-- [Antonio (GitHub)](https://github.com/paduanton)
