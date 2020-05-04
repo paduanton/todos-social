@@ -180,7 +180,7 @@ HTTP - 200
 }
 ```
 - Para páginar passe o argumento **?page=1**
-- É possível páginar através dos atributos **completed** e **title** passando como argumentos: **?completed=1&title=Uma tarefa**
+- É possível filtrar Todos através dos atributos **completed** e **title** passando como argumentos: **?completed=1&title=Uma tarefa**
 
 Para atualizar um Todo, envie requisição PUT para `/v1/todos/{todosId}` com os dados:
 
