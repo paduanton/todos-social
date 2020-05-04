@@ -242,7 +242,7 @@ Em caso de sucesso será retornado `HTTP CODE 200` com body do objeto da requisi
 
 #### HTTP GET
 
-Em caso de sucesso será retornado `HTTP CODE 200` com um body de array de objetos do objeto alvo da requisição.
+Em caso de sucesso será retornado `HTTP CODE 200` com um body de array de objetos do objeto alvo da requisição ou um body somente o objeto filtrado na requisição feitas (ex: `/v1/todos/{todosId}`).
 ```json
 [
     {
@@ -304,7 +304,7 @@ Ex:
 ```json
 HTTP - 400
 {
-    "message": "could delete data"
+    "message": "could not delete data"
 }
 ```
 
@@ -315,9 +315,8 @@ Ex:
 HTTP - 500
 {
     "message": "ERROR TO HANDLE REQUEST",
-    "error": "xxxxxx"
-    ...
-    ...
+    "error": "xxxxxx",
+    "....": "....."
 }
 ```
 
@@ -331,10 +330,10 @@ O código dos testes ficam no diretório /tests e para rodá-los use o comando:
 docker exec -it todosweb php ./vendor/bin/phpunit
 ```
 
-## POSTMAN
+## Postman
 
 Se você usa o postman, pode usar o link abaixo para importar uma **Collection** com grande parte das requisições da API. Atualmente o link contém 28 requisições documentadas.
 
-Somente substitua o cabeçalho de autenticação pela token gerado no seu ambiente local.
+Somente substitua o cabeçalho de autenticação pelo token gerado no seu ambiente local.
 
 https://www.getpostman.com/collections/18009794791e5384e19a
