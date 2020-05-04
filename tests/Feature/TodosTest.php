@@ -88,7 +88,7 @@ class TodosTest extends TestCase
     public function testShouldGetTodo()
     {
         /*
-            It must have a todo with the id 2 in the database first
+            It must have a todo with the id 1 in the database first
         */
 
         $user = factory(Users::class)->create();
@@ -96,7 +96,7 @@ class TodosTest extends TestCase
         $response = $this->actingAs($user, 'api')
             ->withHeaders([
                 'Accept' => 'application/json',
-            ])->json('GET', '/v1/todos/2');
+            ])->json('GET', '/v1/todos/1');
 
         $response
             ->assertStatus(200)

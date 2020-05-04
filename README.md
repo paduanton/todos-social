@@ -324,6 +324,14 @@ HTTP - 500
 
 Lembrando que todas requisições **devem** conter o cabeçalho de autenticação com o token de usuário. Outro ponto a ser levantado é que é usado Soft Deletes para deletar informações, então ao consultar o banco de dados, a coluna **deleted_at** populada corresponde aos dados deletados das entidades.
 
+## Testes Unitários
+
+O código dos testes ficam no diretório /tests e para rodá-los use o comando:
+
+```
+docker exec -it todosweb php ./vendor/bin/phpunit
+```
+
 ## POSTMAN
 
 Se você usa o postman, pode usar o link abaixo para importar uma **Collection** com grande parte das requisições da API. Atualmente o link contém 28 requisições documentadas.
