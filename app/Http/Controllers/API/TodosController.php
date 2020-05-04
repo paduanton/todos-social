@@ -65,6 +65,7 @@ class TodosController extends Controller
 
         return TodosResource::collection($todos);
     }
+    
     public function store(Request $request, $usersId)
     {
         $this->validate($request, [
